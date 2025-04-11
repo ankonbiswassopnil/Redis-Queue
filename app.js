@@ -19,6 +19,17 @@ app.post('/add-job', (req, res) => {
   return res.json({ status: 'success', message: 'Job added to queue' });
 });
 
+// GET /job-status/:jobId
+app.get('/job-status/:jobId', (req, res) => {
+    const jobId = req.params.jobId;
+    client.get(`jobStatus:${jobId}`, (err, status) => {
+      if (err) return res.status(500).json({ error: 'Redis error' });
+      if (!status) return res.status(404).json({ status: 'not found' });
+  
+      return res.json({ jobId, status });
+    });
+  });
+
 app.listen(serverConfig.port, () => {
   console.log(`Server running on http://localhost:${serverConfig.port}`);
 });

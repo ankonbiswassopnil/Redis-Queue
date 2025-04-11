@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const addJobToQueue = require('./queue');
+const { server: serverConfig } = require('./config');
 
 const app = express();
-const PORT = 3000;
 
 app.use(bodyParser.json());
 
@@ -19,6 +19,6 @@ app.post('/add-job', (req, res) => {
   return res.json({ status: 'success', message: 'Job added to queue' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(serverConfig.port, () => {
+  console.log(`Server running on http://localhost:${serverConfig.port}`);
 });
